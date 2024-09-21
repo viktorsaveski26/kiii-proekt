@@ -26,3 +26,19 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/quizapp:latest ./quizapp/
           docker push ${{ secrets.DOCKER_USERNAME }}/quizapp:latest
+
+      - name: Send success notification to Discord
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+            -X POST \
+            -d '{"content": "✅ Build and deploy successful for run #${{ github.run_number }}!"}' \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Send failure notification to Discord
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" \
+            -X POST \
+            -d '{"content": "❌ Build and deploy failed for run #${{ github.run_number }}!"}' \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
