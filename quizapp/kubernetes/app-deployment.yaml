@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quizapp
+  namespace: quiz
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quizapp
+  template:
+    metadata:
+      labels:
+        app: quizapp
+    spec:
+      containers:
+        - name: quizapp
+          image: viktorsaveski7/quizapp:latest
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_CONFIG_LOCATION
+              value: "classpath:/application.properties,/config/application.properties"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: quizapp-config
