@@ -2,7 +2,7 @@ services:
   quizapp:
     image: viktorsaveski7/quizapp:latest
     ports:
-      - "8080:8080"
+      - "8081:8081"
     environment:
       - MONGO_URI=mongodb://mongo:27017/questionb
     depends_on:
