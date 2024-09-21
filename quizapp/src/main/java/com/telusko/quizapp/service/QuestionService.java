@@ -37,12 +37,12 @@ public class QuestionService {
 
     public ResponseEntity<String> addQuestion(Question question) {
         questionDao.save(question);
-        return new ResponseEntity<>("success", HttpStatus.CREATED);
+        return new ResponseEntity<>("successfully posted", HttpStatus.CREATED);
     }
 
     public List<Question> getRandomQuestionsByCategory(String category, int numQ) {
         List<Question> questions = questionDao.findByCategory(category);
-        Collections.shuffle(questions);  // Shuffle the list to randomize
-        return questions.subList(0, Math.min(numQ, questions.size()));  // Limit the results
+        Collections.shuffle(questions);
+        return questions.subList(0, Math.min(numQ, questions.size()));
     }
 }
